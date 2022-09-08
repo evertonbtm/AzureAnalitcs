@@ -1,0 +1,16 @@
+{
+  "name": "leitorazure",
+  "version": "1.0.0",
+  "description": "teste",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "felipe.bochnia",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "excel4node": "^1.8.0",
+    "export-to-csv": "^0.2.1"
+  }
+}
