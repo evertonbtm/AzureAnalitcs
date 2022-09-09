@@ -11,6 +11,7 @@
   "dependencies": {
     "axios": "^0.27.2",
     "excel4node": "^1.8.0",
-    "export-to-csv": "^0.2.1"
+    "export-to-csv": "^0.2.1",	
+    "properties-reader": "^2.2.0"
   }
 }
