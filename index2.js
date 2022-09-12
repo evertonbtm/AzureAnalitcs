@@ -1,4 +1,5 @@
 const azureUtils  = require('./AzureUtils.js')
+const miscUtils  = require('./MiscUtils.js')
 
 /* FIX
 const capitalizeRepos = async () => {
@@ -37,6 +38,7 @@ const capitalizeRepos = async () => {
     repoList.map(async (repo) => {
       const repoRef = await azureUtils.getRefs(repo.url);
       const repoStats = await azureUtils.getBranchStats(repo.url)
+	  //const branchCommits = await azureUtils.getBranchStats(repo.url)
 	  
 	  processResults(repo, repoRef, repoStats);
 
@@ -58,8 +60,8 @@ function promisseProcces(promiseAll){
 
 capitalizeRepos();
 
-function processResults(repositorie, branchs, stats){
-	
+function processResults(repositorie, branchs, stats, commits){
+
 	let processed = [];
 	for(let i = 0; i < stats.length; i++) {		
 		if(!repositorie.name.includes('SFA-CLIENTE') && 
@@ -73,13 +75,13 @@ function processResults(repositorie, branchs, stats){
 		// to WorkBook
 		let row = {
 			"repositorie" : repositorie.name,
-			"lastUpdate" : repositorie.project.lastUpdateTime,
+			"repoLastUpdate" : repositorie.project.lastUpdateTime,
 			"lastCommit" : ( stats[i] != null ? stats[i].commit.committer.date : ""),
 			"url" : repositorie.remoteUrl,
-			"size" : repositorie.size,
+			"size" : miscUtils.formatBytes(repositorie.size, 2),
 			"branch" : stats[i].name,
 			"ref" : ( branch != null ? branch.name : ""),
-			"statUses" : ( branch != null ? branch.statuses : ""),
+			"lastBuild" : ( branch != null ? branch.statuses : ""),
 			"commitsAhead":  ( stats[i] != null ? stats[i].aheadCount : ""),
 			"commitsBehind": ( stats[i] != null ? stats[i].behindCount : "")
 		}
@@ -88,4 +90,5 @@ function processResults(repositorie, branchs, stats){
 		console.log('row ',row);
 	}
 	
+	return processed;
 }

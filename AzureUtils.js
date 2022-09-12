@@ -71,4 +71,12 @@ const getBranchStats = async (repositorie) => {
     return executeRequest(config);
 }
 
-module.exports = { getRepos , getRefs ,getBranchStats }
+const getCommits = async (repositorie) => {
+	let path = '/commits?changeCount=true&';
+	var config = configDefault;
+    config.url = repositorie + path + API_VERSION;
+
+    return executeRequest(config);
+}
+
+module.exports = { getRepos , getRefs ,getBranchStats , getCommits }
