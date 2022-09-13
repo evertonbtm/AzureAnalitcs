@@ -12,6 +12,17 @@ const formatBytes = (bytes, decimals = 2) =>  {
     return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
 }
 
+const formatDate = (date, opts) =>  {
+	var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+	var today  = new Date(date);
+	//console.log(today.toLocaleDateString("pt-BR"));
+	if(opts){
+		return today.toLocaleDateString("pt-BR",options);
+	}else{
+		return today.toLocaleDateString("pt-BR");
+	}
+}
+
 function firstCommit(commits) {
 	var min_dt = commits[0].commit.committer.date ,
 	min_dtObj = new Date(commits[0].commit.committer.date);
@@ -73,4 +84,4 @@ const toWorkbook = (results) =>  {
 }
 
 
-module.exports = { formatBytes , firstCommit, toWorkbook }
+module.exports = { formatBytes, formatDate, firstCommit, toWorkbook }

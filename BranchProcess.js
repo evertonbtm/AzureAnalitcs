@@ -7,21 +7,19 @@ const params = process.argv.slice(2);
 const capitalizeRepos = async () => {
   const repoList = await azureUtils.getRepos();
 
-   Promise.allSettled(
-    repoList.map(async (repo) => {
-      const repoRef = await azureUtils.getRefs(repo.url);
-      const repoStats = await azureUtils.getBranchStats(repo.url);
-	  
-	  return [repo, repoRef, repoStats];
+	Promise.allSettled(
+		repoList.map(async (repo) => {
+			const repoRef = await azureUtils.getRefs(repo.url);
+			const repoStats = await azureUtils.getBranchStats(repo.url);
 
-    })
-  ).then((all) => {
-	promisseProcess(all);	
-  })
-  .catch((error) => {
-    console.log('Error: ', error);
-  });
-
+			return [repo, repoRef, repoStats];
+	})
+	).then((all) => {
+		promisseProcess(all);	
+	})
+	.catch((error) => {
+		console.log('Error: ', error);
+	});
 }
 
 
@@ -57,8 +55,10 @@ function promisseProcess(promiseAll){
 		"lastCommit" : "Ultimo commit",
 		"lastBuild" : "Ultima pipeline",
 		"commitsAhead":  "Commits à frente",
-		"commitsBehind": "Commits atras"
+		"commitsBehind": "Commits atras",
+		"isBaseVersion": "Branch base"
 	}
+	
 	processed.push(headers);
 	
 	promiseAll.forEach(promise => {
@@ -117,11 +117,12 @@ function processResults(repositorie, branchs, stats, commits){
 			"size" : miscUtils.formatBytes(repositorie.size, 2),
 			"branch" : ( stat != null ? stat.name : ""),
 			//"ref" : ( branch != null ? branch.name : ""),			
-			"repoLastUpdate" : repositorie.project.lastUpdateTime,
-			"lastCommit" : ( stat != null ? stat.commit.committer.date : ""),
-			"lastBuild" : ( branch != null && branch.statuses[0] ? branch.statuses[0].creationDate : "Não executado"),
-			"commitsAhead":  ( stat != null && stat != '' ? stat.aheadCount : "sem dados"),
-			"commitsBehind": ( stat != null && stat != '' ? stat.behindCount : "sem dados")
+			"repoLastUpdate" : miscUtils.formatDate(repositorie.project.lastUpdateTime),
+			"lastCommit" : ( stat != null ? miscUtils.formatDate(stat.commit.committer.date) : ""),
+			"lastBuild" : 	( branch != null && branch.statuses[0] ? miscUtils.formatDate(branch.statuses[0].creationDate) : "Não executado"),
+			"commitsAhead":  ( stat != null && stat.aheadCount != '' ? stat.aheadCount : "sem dados"),
+			"commitsBehind": ( stat != null && stat.behindCount != '' ? stat.behindCount : "sem dados"),
+			"isBaseVersion": ( stat != null ? String(stat.isBaseVersion) : "sem dados"),
 		};
 		
 		processed.push(row);
