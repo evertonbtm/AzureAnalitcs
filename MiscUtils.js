@@ -53,11 +53,27 @@ const toWorkbook = (results) =>  {
         //ws.cell(1, headingColumnIndex++).string(headingColumnNames [i]);
 	}*/
 
+	var title = wb.createStyle({
+			font: {
+				name: 'Cambria',
+				size: 14,
+				color: '#000000',
+				fgColor: '#F8F5EE'
+			},
+			alignment: {
+				vertical: 'center'
+			}
+	});
+	
 	results.forEach(branch => {
 		let columnIndex = 1;
 		for(var i in headingColumnNames){
 			if(branch[i]){
-				ws.cell(rowIndex, columnIndex).string(String(branch[i]));
+				if(rowIndex == 1){					
+					ws.cell(rowIndex, columnIndex).style(title).string(String(branch[i]));
+				}else{
+					ws.cell(rowIndex, columnIndex).string(String(branch[i]));
+				}
 			}
 			columnIndex++;
 		}
@@ -84,4 +100,12 @@ const toWorkbook = (results) =>  {
 }
 
 
-module.exports = { formatBytes, formatDate, firstCommit, toWorkbook }
+const getXmlVersion = (version) =>  {
+	var convert = require('xml-js');
+	
+	var result = JSON.parse(convert.xml2json('<?xml version="1.0" encoding="UTF-8"?>' +  version, {compact: true, spaces: 4}));
+
+	return result.project.properties;	
+}
+
+module.exports = { formatBytes, formatDate, firstCommit, toWorkbook , getXmlVersion }

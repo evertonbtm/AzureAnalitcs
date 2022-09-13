@@ -10,8 +10,11 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.27.2",
+    "dom-parser": "^0.1.6",
     "excel4node": "^1.8.0",
-    "export-to-csv": "^0.2.1",	
-    "properties-reader": "^2.2.0"
+    "export-to-csv": "^0.2.1",
+    "properties-reader": "^2.2.0",
+    "xml-js": "^1.6.11",
+    "xml-parse": "^0.4.0"
   }
 }
