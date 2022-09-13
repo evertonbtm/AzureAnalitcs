@@ -1,4 +1,4 @@
-
+const xl = require('excel4node');
 
 const formatBytes = (bytes, decimals = 2) =>  {
     if (!+bytes) return '0 Bytes'
@@ -26,4 +26,51 @@ function firstCommit(commits) {
 	return min_dt;
 }
 
-module.exports = { formatBytes , firstCommit}
+const toWorkbook = (results) =>  {
+	const wb = new xl.Workbook();
+	const ws = wb.addWorksheet('Branchs SFA-CLIENTE');
+
+    const headingColumnNames = results[0];
+	let result = [];
+	let columns=0;
+	let headingColumnIndex = 1;
+	let rowIndex = 1
+		
+	/*for(var i in headingColumnNames){
+		columns++;
+		result.push([i, headingColumnNames [i]]);
+        //ws.cell(1, headingColumnIndex++).string(headingColumnNames [i]);
+	}*/
+
+	results.forEach(branch => {
+		let columnIndex = 1;
+		for(var i in headingColumnNames){
+			if(branch[i]){
+				ws.cell(rowIndex, columnIndex).string(String(branch[i]));
+			}
+			columnIndex++;
+		}
+		rowIndex++;
+	});
+	
+	/*
+    // insere Quantidade total de repositorys
+    ws.cell(1, 4).string("Quantidade total repositorys: ");
+    ws.cell(1, 5).number(listBranchsAllClients.length);
+
+    var qtdBranches = 0;
+    listBranchsAllClients.forEach(obj => {
+        obj.branches.forEach(branch => {
+            qtdBranches++;
+        });
+    });
+
+    // insere Quantidade total de branches de todos os repositories SFA-CLIENTE
+    ws.cell(2, 4).string("Quantidade total de branches: ");
+    ws.cell(2, 5).number(qtdBranches);
+ */
+    wb.write('Branchs-SFA-CLIENTE.xlsx');
+}
+
+
+module.exports = { formatBytes , firstCommit, toWorkbook }
