@@ -21,6 +21,7 @@ var configDefault = {
   method: 'get',
   url: null, // Setar 
   headers: { 
+    Accept: 'application/json, text/plain, */*',
     'Authorization': 'Basic ' + new Buffer(user + ':' + token).toString('base64')
   }
 };
@@ -37,7 +38,13 @@ function executeRequest(config) {
     return new Promise((resolve, reject) =>{
         axios(config)
             .then(function (response) {            
-                resolve(response.data.value);    
+				//console.log('response ', response);
+				if(response.data.value){
+					resolve(response.data.value);    
+				}else if(response.data){
+					resolve(response.data);  
+				}
+                
             })
             .catch(function (error) {
                 //console.log('error ', error.message);
@@ -79,4 +86,18 @@ const getCommits = async (repositorie) => {
     return executeRequest(config);
 }
 
-module.exports = { getRepos , getRefs ,getBranchStats , getCommits }
+//custom
+const getVersionNotLegacy = async (name, repositorie) => {
+	
+	let customer = name.replace('SFA-CLIENTE-','').toLowerCase();
+	let customer_path= 'sim3g.cliente.'+customer+'.web';
+	
+	let path = '/items?path='+customer_path+'/pom.xml&versionDescriptor.version=master&';
+	var config = configDefault;
+    config.url = repositorie + path + API_VERSION;
+	config.headers.Accept = 'application/xml';
+
+    return executeRequest(config);
+}
+
+module.exports = { getRepos , getRefs ,getBranchStats , getCommits, getVersionNotLegacy }
