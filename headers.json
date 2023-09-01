@@ -1,0 +1,12 @@
+{
+	"repositorie" : "Repositorio",
+	"url" : "Url",
+	"size" : "Tamanho",
+	"branch" : "Branch",
+	"isBaseVersion": "Branch base",
+	"repoLastUpdate" : "Repositorio Atualizado",
+	"lastCommit" : "Ultimo commit",
+	"lastBuild" : "Ultima pipeline",
+	"commitsAhead":  "Commits à frente",
+	"commitsBehind": "Commits atras"
+}

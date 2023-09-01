@@ -1,0 +1,23 @@
+{
+  "name": "AzureAnalitcs",
+  "version": "1.0.0",
+  "description": "Export data from branchs to xls,csv",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src\\BranchProcess",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "evertonbtm",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "csv-writer": "^1.6.0",
+    "dom-parser": "^0.1.6",
+    "excel4node": "^1.8.0",
+    "export-to-csv": "^0.2.1",
+    "json-2-csv": "^4.0.0",
+    "properties-reader": "^2.2.0",
+    "xml-js": "^1.6.11",
+    "xml-parse": "^0.4.0"
+  }
+}
