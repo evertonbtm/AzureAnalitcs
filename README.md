@@ -1,2 +1,2 @@
 # AzureAnalitcs
-Azure repos statistcs and analitcs to excel
+Azure repos statistcs and analitcs to excel/csv
